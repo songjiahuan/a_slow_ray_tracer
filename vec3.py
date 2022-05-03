@@ -17,6 +17,10 @@ class vec3:
         v = [self.__x, self.__y, self.__z]
         return v[index]
 
+    def __getitem__(self, index):
+        v = [self.__x, self.__y, self.__z]
+        return v[index]
+
     def __repr__(self):
         return '(' + str(self.__x) + ',' + str(self.__y) + ',' + str(self.__z) + ')'
     
