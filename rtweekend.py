@@ -1,6 +1,3 @@
-from numpy import Infinity
-
-
 infinity = float ("inf")
 pi = 3.1415926535897932385
 
