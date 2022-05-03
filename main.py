@@ -1,9 +1,21 @@
+from xmlrpc.client import boolean
 from vec3 import *
 from color import *
 from ray import *
 
 
+def hit_sphere(center: point3, radius: float, r: ray) -> bool:
+    oc = r.origin() - center
+    a = dot(r.direction(), r.direction())
+    b = 2.0 * dot(r.direction(), oc)
+    c = dot(oc, oc) - radius * radius
+    discriminant = b * b - 4.0 * a * c
+    return (discriminant > 0.0)
+
+
 def ray_color(r: ray) -> color:
+    if hit_sphere(point3(0, 0, -1), 0.5, r):
+        return color(1, 0, 0)
     unit_direction = unit_vector(r.direction())
     t = 0.5 * (unit_direction.y() + 1.0)
     return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0)
