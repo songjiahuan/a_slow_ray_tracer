@@ -1,3 +1,6 @@
+import sys
+
+
 from vec3 import *
 from color import *
 from ray import *
@@ -37,6 +40,7 @@ if __name__ == '__main__':
     print("P3\n" + str(image_width) + ' ' + str(image_height) + '\n255')
 
     for j in range(image_height-1, -1, -1):
+        sys.stderr.write('\rProcessing: {:.2f}%'.format((image_height - j) / image_height * 100))
         for i in range(0, image_width):
             pixel_color = color(0.0, 0.0, 0.0)
             for s in range(0, samples_per_pixel):
@@ -46,3 +50,5 @@ if __name__ == '__main__':
                 pixel_color += ray_color(r, world)
             
             write_color(pixel_color, samples_per_pixel)
+
+    sys.stderr.write('\nDone.\n')
