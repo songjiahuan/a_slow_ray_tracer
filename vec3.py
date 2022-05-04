@@ -1,3 +1,7 @@
+from cv2 import norm
+from rtweekend import *
+
+
 class vec3:
     def __init__(self, x=0.0, y=0.0, z=0.0):
         self.__x = x
@@ -62,20 +66,42 @@ class vec3:
     def length_squared(self):
         return self.__x * self.__x + self.__y * self.__y + self.__z * self.__z
 
+    def random(self, min=0.0, max=1.0):
+        return vec3(random_double(min, max), random_double(min, max), random_double(min, max))
 
-def dot(v1: vec3, v2: vec3):
+
+point3 = vec3
+color = vec3
+
+
+def dot(v1: vec3, v2: vec3) -> float:
     return v1.x() * v2.x() + v1.y() * v2.y() + v1.z() * v2.z()
 
 
-def cross(v1: vec3, v2: vec3):
+def cross(v1: vec3, v2: vec3) -> vec3:
     return vec3(v1.y() * v2.z() - v1.z() * v2.y(),
                 v1.z() * v2.x() - v1.x() * v2.z(),
                 v1.x() * v2.y() - v1.y() * v2.x())
 
 
-def unit_vector(v: vec3):
+def unit_vector(v: vec3) -> vec3:
     return v / v.length()
 
 
-point3 = vec3
-color = vec3
+def random_in_unit_sphere() -> point3:
+    while True:
+        p = vec3.random(None, -1.0, 1.0)
+        if p.length_squared() < 1:
+            return p
+
+
+def random_unit_vector() -> vec3:
+    return unit_vector(random_in_unit_sphere())
+
+
+def random_in_hemisphere(normal: vec3) -> point3:
+    in_unit_sphere = random_in_unit_sphere()
+    if dot(in_unit_sphere, normal) > 0.0:
+        return in_unit_sphere
+    else:
+        return -in_unit_sphere

@@ -10,10 +10,14 @@ from sphere import *
 from camera import *
 
 
-def ray_color(r: ray, world: hittable) -> color:
+def ray_color(r: ray, world: hittable, depth: int) -> color:
     rec = hit_record()
+    if depth <= 0:
+        return color(0, 0, 0)
+
     if world.hit(r, 0, infinity, rec):
-        return 0.5 * (rec.normal + color(1.0, 1.0 ,1.0))
+        target = rec.p + rec.normal + random_unit_vector()
+        return 0.5 * ray_color(ray(rec.p, target  - rec.p), world, depth - 1)
     
     unit_direction = unit_vector(r.direction())
     t = 0.5 * (unit_direction.y() + 1.0)
@@ -27,6 +31,7 @@ if __name__ == '__main__':
     image_width = 400
     image_height = int(image_width / aspect_radio)
     samples_per_pixel = 100
+    max_depth = 50
 
     # world
     world = hittable_list()
@@ -47,7 +52,7 @@ if __name__ == '__main__':
                 u = (i + random_double()) / (image_width - 1)
                 v = (j + random_double()) / (image_height - 1)
                 r = cam.get_ray(u, v)
-                pixel_color += ray_color(r, world)
+                pixel_color += ray_color(r, world, max_depth)
             
             write_color(pixel_color, samples_per_pixel)
 
