@@ -1,4 +1,3 @@
-import imp
 from vec3 import *
 from ray import *
 

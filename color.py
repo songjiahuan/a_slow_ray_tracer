@@ -1,6 +1,3 @@
-from cmath import pi
-
-from matplotlib.pyplot import sca
 from rtweekend import clamp
 from vec3 import *
 
