@@ -69,6 +69,15 @@ class vec3:
     def random(self, min=0.0, max=1.0):
         return vec3(random_double(min, max), random_double(min, max), random_double(min, max))
 
+    def copy(self, v):
+        self.__x = v.x()
+        self.__y = v.y()
+        self.__z = v.z()
+
+    def near_zero(self):
+        s = 1e-8
+        return (abs(self.__x) < s) and (abs(self.__y) < s) and (abs(self.__z) < s)
+
 
 point3 = vec3
 color = vec3
@@ -105,3 +114,7 @@ def random_in_hemisphere(normal: vec3) -> point3:
         return in_unit_sphere
     else:
         return -in_unit_sphere
+
+def reflect(v: vec3, n: vec3) -> vec3:
+    return v - 2 * dot(v, n) * n
+    

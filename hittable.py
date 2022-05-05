@@ -7,12 +7,14 @@ class hit_record:
     def __init__(self):
         self.p = point3()
         self.normal = vec3()
+        self.mat_ptr = None
         self.t = 0.0
         self.front_face = True
 
     def copy(self, rec):
         self.p = rec.p
         self.normal = rec.normal
+        self.mat_ptr = rec.mat_ptr
         self.t = rec.t
         self.front_face = rec.front_face
 
