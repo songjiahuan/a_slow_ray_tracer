@@ -1,4 +1,5 @@
 import sys
+from math import cos
 
 
 from vec3 import *
@@ -38,6 +39,7 @@ if __name__ == '__main__':
     max_depth = 50
 
     # world
+    # R = cos(pi / 4)
     world = hittable_list()
     
     material_ground = lambertian(color(0.8, 0.8, 0.0))
@@ -45,15 +47,18 @@ if __name__ == '__main__':
     material_left   = dielectric(1.5)
     material_right  = metal(color(0.8, 0.6, 0.2), 0.0)
 
+    # material_left   = lambertian(color(0, 0, 1))
+    # material_right  = lambertian(color(1, 0, 0))
+
     world.add(sphere(point3(0, -100.5, -1), 100.0, material_ground))
     world.add(sphere(point3(0.0, 0.0, -1.0), 0.5, material_center))
     world.add(sphere(point3(-1.0, 0.0, -1.0), 0.5, material_left))
-    world.add(sphere(point3(-1.0, 0.0, -1.0), -0.4, material_left))
+    world.add(sphere(point3(-1.0, 0.0, -1.0), -0.45, material_left))
     world.add(sphere(point3(1.0, 0.0, -1.0), 0.5, material_right))
     
 
     # camera
-    cam = camera()
+    cam = camera(point3(-2, 2, 1), point3(0, 0, -1), vec3(0, 1, 0), 90, aspect_radio)
 
     # render
     print("P3\n" + str(image_width) + ' ' + str(image_height) + '\n255')

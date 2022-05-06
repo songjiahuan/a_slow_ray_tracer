@@ -1,19 +1,25 @@
+from math import tan
+
+
 from vec3 import *
 from ray import *
 
 
 class camera:
-    def __init__(self):
-        aspect_radio = 16.0 / 9.0
-        viewport_height = 2.0
-        viewport_width = viewport_height * aspect_radio
-        focal_length = 1.0
+    def __init__(self, lookfrom: point3, lookat: point3, vup: vec3, vfov: float, aspect_radio: float):
+        theta = degrees_to_radians(vfov)
+        h = tan(theta / 2)
+        viewport_height = 2.0 * h
+        viewport_width =  aspect_radio * viewport_height
 
-        self.origin = point3(0.0, 0.0, 0.0)
-        self.horizontal = vec3(viewport_width, 0.0, 0.0)
-        self.vertical = vec3(0.0, viewport_height, 0.0)
-        self.lower_left_corner = self.origin - self.horizontal / 2.0 - \
-                                 self.vertical / 2.0 - vec3(0.0, 0.0, focal_length)
+        w = unit_vector(lookfrom - lookat)
+        u = unit_vector(cross(vup, w))
+        v = cross(w, u)
+
+        self.origin = lookfrom
+        self.horizontal = viewport_width * u
+        self.vertical = viewport_height * v
+        self.lower_left_corner = self.origin - self.horizontal / 2.0 - self.vertical / 2.0 - w
         
-    def get_ray(self, u: float, v: float) -> ray:
-        return ray(self.origin, self.lower_left_corner + u * self.horizontal + v * self.vertical - self.origin)
+    def get_ray(self, s: float, t: float) -> ray:
+        return ray(self.origin, self.lower_left_corner + s * self.horizontal + t * self.vertical - self.origin)
