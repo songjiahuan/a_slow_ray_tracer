@@ -48,10 +48,15 @@ class dielectric(material):
         sin_theta = (1.0 - cos_theta * cos_theta) ** 0.5
 
         cannot_refract = (refraction_radio * sin_theta > 1.0)
-        if cannot_refract:
+        if cannot_refract or self.reflectance(cos_theta, refraction_radio) > random_double():
             direction = reflect(unit_direction, rec.normal)
         else:
             direction = refract(unit_direction, rec.normal, refraction_radio)
 
         scattered.copy(ray(rec.p, direction))
         return True
+
+    def reflectance(self, cosine: float, ref_idx: float):
+        r0 = (1 - ref_idx) / (1 + ref_idx)
+        r0 = r0 * r0
+        return r0 + (1 - r0) * ((1 - cosine) ** 5)
