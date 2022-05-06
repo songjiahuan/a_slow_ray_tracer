@@ -58,7 +58,13 @@ if __name__ == '__main__':
     
 
     # camera
-    cam = camera(point3(-2, 2, 1), point3(0, 0, -1), vec3(0, 1, 0), 90, aspect_radio)
+    lookfrom = point3(3, 3, 2)
+    lookat = point3(0, 0, -1)
+    vup = point3(0, 1, 0)
+    dist_to_focuus = (lookfrom - lookat).length()
+    aperture = 2.0
+
+    cam = camera(lookfrom, lookat, vup, 20, aspect_radio, aperture, dist_to_focuus)
 
     # render
     print("P3\n" + str(image_width) + ' ' + str(image_height) + '\n255')
