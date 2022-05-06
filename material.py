@@ -1,4 +1,3 @@
-from operator import index, indexOf
 from hittable import *
 
 

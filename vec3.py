@@ -1,4 +1,3 @@
-from cv2 import norm
 from rtweekend import *
 
 

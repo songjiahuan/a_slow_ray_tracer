@@ -1,4 +1,3 @@
-import sys
 from vec3 import *
 from hittable import *
 from material import *
