@@ -115,6 +115,13 @@ def random_in_hemisphere(normal: vec3) -> point3:
     else:
         return -in_unit_sphere
 
+
 def reflect(v: vec3, n: vec3) -> vec3:
     return v - 2 * dot(v, n) * n
     
+    
+def refract(uv: vec3, n: vec3, etai_over_etat) -> vec3:
+    cos_theta = min(dot(-uv, n), 1.0)
+    r_out_perp: vec3 = etai_over_etat * (uv + cos_theta * n)
+    r_out_parallel: vec3 = -(abs(1.0 - r_out_perp.length_squared())) ** 0.5 * n
+    return r_out_perp + r_out_parallel
