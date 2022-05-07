@@ -1,4 +1,4 @@
-from rtweekend import clamp
+from rtweekend import *
 from vec3 import *
 
 
